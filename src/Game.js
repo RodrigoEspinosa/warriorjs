@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import glob from 'glob';
+import _ from 'lodash';
 import UI from './UI';
 import Config from './Config';
 import Profile from './Profile';
@@ -103,7 +104,7 @@ class Game {
     let profile = UI.choose('profile', this.getProfiles().concat('New profile'));
     if (profile === 'New profile') {
       profile = this.newProfile();
-      if (this.getProfiles().some((p) => p.getPlayerPath() === profile.getPlayerPath())) {
+      if (_.some(this.getProfiles(), (p) => p.getPlayerPath() === profile.getPlayerPath())) {
         if (UI.ask('Are you sure you want to replace your existing profile for this tower?')) {
           UI.printLine('Replacing existing profile.');
         } else {
