@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import chalk from 'chalk';
 import Position from './Position';
 import Space from './Space';
 import Warrior from './units/Warrior';
@@ -42,7 +42,7 @@ class Floor {
   getUniqueUnits() {
     const uniqueUnits = [];
     this.getUnits().forEach((unit) => {
-      if (!_.includes(uniqueUnits.map((u) => u.constructor), (unit.constructor))) {
+      if (!uniqueUnits.map((u) => u.constructor).includes(unit.constructor)) {
         uniqueUnits.push(unit);
       }
     });
@@ -63,7 +63,7 @@ class Floor {
   }
 
   getUnit(x, y) {
-    return _.find(this.getUnits(), (unit) => unit.getPosition().isAt(x, y));
+    return this.getUnits().find((unit) => unit.getPosition().isAt(x, y));
   }
 
   getSpace(x, y) {
@@ -86,6 +86,21 @@ class Floor {
       rows.push(row);
     }
     rows.push(` ${Array(this._width + 1).join('-')}`);
+    return `${rows.join('\n')}\n`;
+  }
+
+  getStyledCharacter() {
+    const rows = [];
+    rows.push(chalk.gray(` ${Array(this._width + 1).join('-')}`));
+    for (let y = 0; y < this._height; y++) {
+      let row = chalk.gray('|');
+      for (let x = 0; x < this._width; x++) {
+        row += this.getSpace(x, y).getStyledCharacter();
+      }
+      row += chalk.gray('|');
+      rows.push(row);
+    }
+    rows.push(chalk.gray(` ${Array(this._width + 1).join('-')}`));
     return `${rows.join('\n')}\n`;
   }
 }

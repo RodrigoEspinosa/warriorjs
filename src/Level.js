@@ -102,7 +102,7 @@ class Level {
       }
 
       UI.printLine(`- turn ${n + 1} -`);
-      UI.print(this.getFloor().getCharacter());
+      UI.print(this.getFloor().getStyledCharacter());
       this.getFloor().getUnits().forEach((unit) => unit.prepareTurn());
       this.getFloor().getUnits().forEach((unit) => unit.performTurn());
       if (this.getTimeBonus() > 0) {
@@ -148,7 +148,7 @@ class Level {
   }
 
   failed() {
-    return !_.includes(this.getFloor().getUnits(), this.getWarrior());
+    return !this.getFloor().getUnits().includes(this.getWarrior());
   }
 
   exists() {
